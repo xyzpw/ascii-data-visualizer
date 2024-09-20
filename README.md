@@ -1,4 +1,4 @@
-# ascii-graph
+# ascii-data-visualizer
 A terminal application which visualizes statistical data via ascii characters.
 
 ![ascii-data-visualizer-preview](https://github.com/user-attachments/assets/c3198118-09e4-4f85-982e-d8ee3fc6a2c3)
