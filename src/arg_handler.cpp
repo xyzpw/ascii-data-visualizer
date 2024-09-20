@@ -6,7 +6,7 @@
 
 std::string getArgValue(
     std::unordered_map<std::string, std::string> args,
-    std::string argName, std::string defaultValue = "")
+        std::string argName, std::string defaultValue = "")
 {
     if (!args.count(argName))
         return defaultValue;

@@ -35,6 +35,8 @@ VerticalBarChart::VerticalBarChart(std::string filename, int width, int height)
     if (height < 10)
         height = 10;
     BarChartInfo info = getBarChartInfoFromFile(filename);
+    if (width < info.dataPoints.size()+2)
+        throw std::runtime_error("width must be larger to display chart");
     this->title = info.title;
     this->dataPoints = info.dataPoints;
     this->width = width;
@@ -129,32 +131,40 @@ BarChartInfo getBarChartInfoFromFile(std::string filename)
     @returns A vector of strings line-by-line which make the ascii chart.
 */
 std::vector<std::string> getVerticalBarChartLineStrings(
-        int width, int height, std::vector<ChartDataPoint> dataPoints)
+    int width, int height,
+    std::vector<ChartDataPoint> dataPoints)
 {
     std::vector<std::string> lineStrings;
+    std::vector<double> dataPointValues = getDataPointValues(dataPoints);
+    double highestDataPointValue = *std::max_element(
+        dataPointValues.begin(), dataPointValues.end()
+    );
     int spacesBetweenBars = width / dataPoints.size();
-    double maxValue = getMaxDataPointValue(dataPoints);
     std::vector<std::pair<ChartDataPoint, int>> barHeights;
     for (auto i : dataPoints){
-        int currentHeight = i.value / maxValue * height;
-        barHeights.push_back(std::make_pair(i, currentHeight));
+        int barHeight = i.value / highestDataPointValue * height;
+        barHeights.push_back(std::make_pair(i, barHeight));
     }
-
-    for (int lineNumber = height; lineNumber > 0; --lineNumber){
-        int currentDataPointIndex = 0;
+    auto checkBarAppearsAtLine = [barHeights, height](int barHeightIndex, int line){
+        if (line <= barHeights.at(barHeightIndex).second)
+            return true;
+        return false;
+    };
+    for (int lineNumber = height; lineNumber >= 0; --lineNumber){
+        int currentBarIndex = 0;
         std::string currentLineString = "";
-        for (int currentColumn = 0; currentColumn < width; ++currentColumn){
-            if (currentColumn % spacesBetweenBars != 0){
+        for (int columnNumber = 0; columnNumber < width; ++columnNumber){
+            if (columnNumber % spacesBetweenBars != 0){
                 currentLineString += " ";
                 continue;
             }
-            if (lineNumber <= barHeights.at(currentDataPointIndex).second)
+            if (currentBarIndex == barHeights.size())
+                break;
+            if (checkBarAppearsAtLine(currentBarIndex, lineNumber))
                 currentLineString += VERTICAL_BAR_CHAR;
             else
                 currentLineString += " ";
-            if (currentDataPointIndex + 1 == barHeights.size())
-                break;
-            ++currentDataPointIndex;
+            ++currentBarIndex;
         }
         lineStrings.push_back(currentLineString);
     }
