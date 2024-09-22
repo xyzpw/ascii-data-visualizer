@@ -1,3 +1,7 @@
 .vscode/
 /test.csv
 ascii-data-visualizer
+
+# Tests
+/tests/test-charts
+/tests/test-csv-parser.csv

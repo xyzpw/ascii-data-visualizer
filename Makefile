@@ -6,3 +6,5 @@ FLAGS = -o ascii-data-visualizer -Iinclude
 $(TARGET): $(SOURCES)
 	$(CC) $(FLAGS) $(SOURCES)
 
+clean:
+	rm $(TARGET)
