@@ -34,6 +34,12 @@ If you want your chart to be vertical, you can use the `orientation` argument:
 $ ./ascii-data-visualizer file.csv --orientation vertical
 ```
 
+#### Graphs
+To make a dot graph:
+```bash
+$ ./ascii-data-visualizer file.csv --type graph
+```
+
 ### File Format
 Format follows `label,value` format:
 ```csv
@@ -42,4 +48,15 @@ title: Programming languages used by programmers (percent)
 C,20
 C++,23
 Python,51
+```
+
+#### Graphs
+Graph formats follow `x,y` values:
+```csv
+x: Time (years)
+y: Radioactive Decay (percent)
+
+30,50
+60,25
+90,12.5
 ```

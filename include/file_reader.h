@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 #include <regex>
-#include <unordered_map>
 
 const std::regex csvFilePattern{"^(.+?),([\\d.]+)(?=,|$)"};
 const std::regex csvDelimiterPattern{"^(\\w+?):\\s*(.+?)$"};

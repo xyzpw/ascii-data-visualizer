@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <fstream>
 #include <regex>
-#include <unordered_map>
 #include "file_reader.h"
 #include "chart_manager.h"
 
